@@ -5,7 +5,6 @@ import Eventos.Terremoto;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
 
 public class GuiForm {
     private JPanel Painel;
@@ -23,8 +22,13 @@ public class GuiForm {
     private JTextField Precipitacao;
     private JTextField Estiagem;
     private JTextField Magnitude;
+    private JTextArea Log;
+    private JButton limpar;
+    private JButton Listar;
+    private App app;
 
     public GuiForm() {
+        app = new App();
         selecionaTipo();
         Cadastrar.addActionListener(new ActionListener() {
 
@@ -37,26 +41,34 @@ public class GuiForm {
                 String STRlongitude = Longitude.getText();
                 double longitude = Double.parseDouble(STRlongitude);
                 String STRtipo = tipoDeEventoComboBox.getSelectedItem().toString();
-                switch (STRtipo) {
-                    case "Ciclone" -> {
-                        String STRvelocidade = Velocidade.getText();
-                        double velocidade = Double.parseDouble(STRvelocidade);
-                        String STRprecipitacao = Precipitacao.getText();
-                        double precipitacao = Double.parseDouble(STRprecipitacao);
+                try {
+                    switch (STRtipo) {
+                        case "Ciclone" -> {
+                            String STRvelocidade = Velocidade.getText();
+                            double velocidade = Double.parseDouble(STRvelocidade);
+                            String STRprecipitacao = Precipitacao.getText();
+                            double precipitacao = Double.parseDouble(STRprecipitacao);
 
-                        Ciclone c = new Ciclone(codigo, data, latitude, longitude, velocidade, precipitacao);
-                    }
-                    case "Terremoto" -> {
-                        String STRmagnitude = Magnitude.getText();
-                        int magnitude = Integer.parseInt(STRmagnitude);
+                            Ciclone evento = new Ciclone(codigo, data, latitude, longitude, velocidade, precipitacao);
+                            app.addEvento(evento);
+                        }
+                        case "Terremoto" -> {
+                            String STRmagnitude = Magnitude.getText();
+                            int magnitude = Integer.parseInt(STRmagnitude);
 
-                        Terremoto t = new Terremoto(codigo, data, latitude, longitude, magnitude);
+                            Terremoto evento = new Terremoto(codigo, data, latitude, longitude, magnitude);
+                            app.addEvento(evento);
+                        }
+                        case "Seca" -> {
+                            String STRestiagem = Estiagem.getText();
+                            int estiagem = Integer.parseInt(STRestiagem);
+                            Seca evento = new Seca(codigo, data, latitude, longitude, estiagem);
+                            app.addEvento(evento);
+                        }
                     }
-                    case "Seca" -> {
-                        String STRestiagem = Estiagem.getText();
-                        int estiagem = Integer.parseInt(STRestiagem);
-                        Seca s = new Seca(codigo, data, latitude, longitude, estiagem);
-                    }
+                    clear();
+                } catch(Exception InvalidCode){
+                    JOptionPane.showMessageDialog(null, "Código Inválido");
                 }
             }
         });
@@ -80,6 +92,18 @@ public class GuiForm {
                 }
             }
         });
+        limpar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clear();
+            }
+        });
+        Listar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Log.setText();
+            }
+        });
     }
 
     private void selecionaTipo(){
@@ -89,6 +113,17 @@ public class GuiForm {
         tipoEvento.addElement("Ciclone");
         tipoEvento.addElement("Seca");
         tipoDeEventoComboBox.setModel(tipoEvento);
+    }
+
+    public void clear(){
+        Codigo.setText("");
+        Data.setText("");
+        Latitude.setText("");
+        Longitude.setText("");
+        Velocidade.setText("");
+        Precipitacao.setText("");
+        Magnitude.setText("");
+        Estiagem.setText("");
     }
 
     public JPanel getPainel(){

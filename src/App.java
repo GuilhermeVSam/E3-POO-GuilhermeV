@@ -7,11 +7,12 @@ public class App {
         listaEventos = new ListaEventos();
     }
 
-    public void executa(){
-        System.out.println(listaEventos);
+    public void addEvento(Evento e) throws Exception {
+        Exception InvalidCode = new Exception("Código Inválido");
+        if(!listaEventos.addEvento(e)) throw InvalidCode;
     }
 
-    public void addEvento(){
-
+    public String listar(){
+        return listaEventos.toString();
     }
 }
