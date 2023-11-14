@@ -23,7 +23,7 @@ public class ListaEventos {
         }
         eventos.add(evento);
         Collections.sort(eventos, new sortName());
-        return eventos.add(evento);
+        return true;
     }
 
     @Override

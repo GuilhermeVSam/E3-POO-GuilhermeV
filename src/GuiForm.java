@@ -23,12 +23,14 @@ public class GuiForm {
     private JTextField Estiagem;
     private JTextField Magnitude;
     private JTextArea Log;
+    private JButton Finalizar;
     private JButton limpar;
     private JButton Listar;
     private App app;
 
     public GuiForm() {
         app = new App();
+        Log.setLineWrap(true);
         selecionaTipo();
         Cadastrar.addActionListener(new ActionListener() {
 
@@ -66,6 +68,7 @@ public class GuiForm {
                             app.addEvento(evento);
                         }
                     }
+                    Log.append("Evento Cadastrado \n");
                     clear();
                 } catch(Exception InvalidCode){
                     JOptionPane.showMessageDialog(null, "Código Inválido");
@@ -101,7 +104,13 @@ public class GuiForm {
         Listar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Log.setText();
+                Log.append(app.listar());
+            }
+        });
+        Finalizar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
             }
         });
     }
@@ -116,6 +125,7 @@ public class GuiForm {
     }
 
     public void clear(){
+        Log.setText("");
         Codigo.setText("");
         Data.setText("");
         Latitude.setText("");
