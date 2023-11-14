@@ -21,7 +21,7 @@
                 <constraints/>
                 <properties>
                   <editable value="false"/>
-                  <rows value="5"/>
+                  <rows value="10"/>
                 </properties>
               </component>
             </children>
@@ -84,6 +84,7 @@
       <component id="3a716" class="javax.swing.JLabel">
         <constraints border-constraint="North"/>
         <properties>
+          <horizontalAlignment value="0"/>
           <text value="Cadastrar Evento:"/>
         </properties>
       </component>

@@ -36,42 +36,57 @@ public class GuiForm {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                String codigo = Codigo.getText();
-                String data = Data.getText();
-                String STRlatitude = Latitude.getText();
-                double latitude = Double.parseDouble(STRlatitude);
-                String STRlongitude = Longitude.getText();
-                double longitude = Double.parseDouble(STRlongitude);
-                String STRtipo = tipoDeEventoComboBox.getSelectedItem().toString();
                 try {
-                    switch (STRtipo) {
-                        case "Ciclone" -> {
-                            String STRvelocidade = Velocidade.getText();
-                            double velocidade = Double.parseDouble(STRvelocidade);
-                            String STRprecipitacao = Precipitacao.getText();
-                            double precipitacao = Double.parseDouble(STRprecipitacao);
-
-                            Ciclone evento = new Ciclone(codigo, data, latitude, longitude, velocidade, precipitacao);
-                            app.addEvento(evento);
+                    String codigo = Codigo.getText();
+                    String data = Data.getText();
+                    String STRlatitude = Latitude.getText();
+                    double latitude = Double.parseDouble(STRlatitude);
+                    String STRlongitude = Longitude.getText();
+                    double longitude = Double.parseDouble(STRlongitude);
+                    String STRtipo = tipoDeEventoComboBox.getSelectedItem().toString();
+                    try {
+                        switch (STRtipo) {
+                            case "Ciclone" -> {
+                                try {
+                                    String STRvelocidade = Velocidade.getText();
+                                    double velocidade = Double.parseDouble(STRvelocidade);
+                                    String STRprecipitacao = Precipitacao.getText();
+                                    double precipitacao = Double.parseDouble(STRprecipitacao);
+                                    Ciclone evento = new Ciclone(codigo, data, latitude, longitude, velocidade, precipitacao);
+                                    app.addEvento(evento);
+                                    Log.append("Evento Cadastrado \n");
+                                } catch(NumberFormatException exception){
+                                    Log.append("ERRO! (Velocidade / Precipitação): Utilize Somente Números Reais \n");
+                                }
+                            }
+                            case "Terremoto" -> {
+                                try {
+                                    String STRmagnitude = Magnitude.getText();
+                                    int magnitude = Integer.parseInt(STRmagnitude);
+                                    Terremoto evento = new Terremoto(codigo, data, latitude, longitude, magnitude);
+                                    app.addEvento(evento);
+                                    Log.append("Evento Cadastrado \n");
+                                } catch(Exception exception){
+                                    Log.append("ERRO (Magnitude): Utilize somente números reais de 1 à 7. \n");
+                                }
+                            }
+                            case "Seca" -> {
+                                try {
+                                    String STRestiagem = Estiagem.getText();
+                                    int estiagem = Integer.parseInt(STRestiagem);
+                                    Seca evento = new Seca(codigo, data, latitude, longitude, estiagem);
+                                    app.addEvento(evento);
+                                    Log.append("Evento Cadastrado \n");
+                                } catch(NumberFormatException exception){
+                                    Log.append("ERRO! (Estiagem): Utilize Somente Números Inteiros. \n");
+                                }
+                            }
                         }
-                        case "Terremoto" -> {
-                            String STRmagnitude = Magnitude.getText();
-                            int magnitude = Integer.parseInt(STRmagnitude);
-
-                            Terremoto evento = new Terremoto(codigo, data, latitude, longitude, magnitude);
-                            app.addEvento(evento);
-                        }
-                        case "Seca" -> {
-                            String STRestiagem = Estiagem.getText();
-                            int estiagem = Integer.parseInt(STRestiagem);
-                            Seca evento = new Seca(codigo, data, latitude, longitude, estiagem);
-                            app.addEvento(evento);
-                        }
+                    } catch (Exception exception) {
+                        Log.append("ERRO! Código Duplicado. \n");
                     }
-                    Log.append("Evento Cadastrado \n");
-                    clear();
-                } catch(Exception InvalidCode){
-                    JOptionPane.showMessageDialog(null, "Código Inválido");
+                } catch(NumberFormatException exception){
+                    Log.append("ERRO! (Latitude / Longitude): Utilize somente números. \n");
                 }
             }
         });
@@ -99,6 +114,7 @@ public class GuiForm {
             @Override
             public void actionPerformed(ActionEvent e) {
                 clear();
+                Log.setText("");
             }
         });
         Listar.addActionListener(new ActionListener() {
@@ -125,7 +141,6 @@ public class GuiForm {
     }
 
     public void clear(){
-        Log.setText("");
         Codigo.setText("");
         Data.setText("");
         Latitude.setText("");

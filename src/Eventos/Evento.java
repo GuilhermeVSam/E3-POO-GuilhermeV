@@ -31,9 +31,9 @@ public abstract class Evento {
 
     @Override
     public String toString() {
-        return  "codigo='" + codigo + '\'' +
-                ", data='" + data + '\'' +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude;
+        return  "Codigo: " + codigo + "\n" +
+                "Data: " + data + "\n" +
+                "Latitude: " + latitude + "\n" +
+                "Longitude: " + longitude;
     }
 }
