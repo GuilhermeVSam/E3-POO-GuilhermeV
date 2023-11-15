@@ -8,7 +8,7 @@ public class Janela extends JFrame {
         form = new GuiForm();
         this.add(form.getPainel());
         this.setTitle("Cadastro de Eventos");
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.pack();
         this.setVisible(true);
     }
